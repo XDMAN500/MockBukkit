@@ -42,7 +42,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Consumer;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -2423,6 +2422,38 @@ class WorldMockTest
 		world.setFullTime(time);
 
 		assertEquals(expected, world.getMoonPhase());
+	}
+
+	@Test
+	void setBlock()
+	{
+		WorldMock world = new WorldMock(Material.DIRT, 3);
+		assertEquals(Material.DIRT, world.getType(0,2,0));
+
+		BlockMock ironblock = new BlockMock(Material.IRON_BLOCK, new Location(world, 0, 2,0));
+		world.setBlock(ironblock);
+		assertEquals(Material.IRON_BLOCK, world.getType(0,2,0));
+
+		BlockMock nullLocation = new BlockMock(Material.STONE);
+		assertThrows(Exception.class, ()-> {
+			world.setBlock(nullLocation);
+		});
+
+		BlockMock differentWorld = new BlockMock(Material.IRON_BLOCK, new Location(new WorldMock(), 0, 2,0));
+		assertThrows(IllegalArgumentException.class, ()-> {
+			world.setBlock(differentWorld);
+		});
+
+		BlockMock tooHigh = new BlockMock(Material.GRANITE, new Location(world, 0, 1000, 0));
+		assertThrows(ArrayIndexOutOfBoundsException.class, ()-> {
+			world.setBlock(tooHigh);
+		});
+
+		BlockMock tooLow = new BlockMock(Material.GRANITE, new Location(world, 0, -1000, 0));
+		assertThrows(ArrayIndexOutOfBoundsException.class, ()-> {
+			world.setBlock(tooLow);
+		});
+
 	}
 
 }

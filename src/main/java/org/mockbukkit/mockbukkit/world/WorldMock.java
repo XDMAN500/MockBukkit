@@ -554,6 +554,23 @@ public class WorldMock implements World
 		return block;
 	}
 
+	public @NotNull void setBlock(@NotNull BlockMock block)
+	{
+		if (block.getY() >= maxHeight)
+		{
+			throw new ArrayIndexOutOfBoundsException("Y larger than max height");
+		}
+		else if (block.getY() < minHeight)
+		{
+			throw new ArrayIndexOutOfBoundsException("Y smaller than min height");
+		}
+		if (!this.equals(block.getWorld())) {
+			throw new IllegalArgumentException("Block world does not match current world");
+		}
+		blocks.put(new Coordinate(block.getX(), block.getY(), block.getZ()), block);
+	}
+
+
 	@Override
 	public boolean isVoidDamageEnabled()
 	{
