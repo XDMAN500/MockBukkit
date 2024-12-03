@@ -554,7 +554,7 @@ public class WorldMock implements World
 		return block;
 	}
 
-	public @NotNull void setBlock(@NotNull BlockMock block)
+	public void setBlock(@NotNull BlockMock block)
 	{
 		if (block.getY() >= maxHeight)
 		{
