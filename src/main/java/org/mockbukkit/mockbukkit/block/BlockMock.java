@@ -53,7 +53,7 @@ public class BlockMock implements Block
 
 	private byte lightFromSky = 15;
 	private byte lightFromBlocks = 0;
-	private Collection<ItemStack> drops;
+	private List<ItemStack> drops;
 
 	/**
 	 * Creates a basic block made of air.
@@ -581,13 +581,13 @@ public class BlockMock implements Block
 	@Override
 	public @NotNull Collection<ItemStack> getDrops()
 	{
-		return drops;
+		return new ArrayList<>(drops);
 	}
 
 	@Override
 	public @NotNull Collection<ItemStack> getDrops(@Nullable ItemStack tool)
 	{
-		return drops;
+		return new ArrayList<>(drops);
 	}
 
 	@Override
@@ -600,14 +600,14 @@ public class BlockMock implements Block
 	public void setBlockData(@NotNull BlockData data)
 	{
 		this.material = data.getMaterial();
-		this.blockData = data;
+		this.blockData = data.clone();
 	}
 
 	@Override
 	public void setBlockData(@NotNull BlockData data, boolean applyPhysics)
 	{
 		this.material = data.getMaterial();
-		this.blockData = data;
+		this.blockData = data.clone();
 	}
 
 	@Override
@@ -642,7 +642,7 @@ public class BlockMock implements Block
 	@Override
 	public @NotNull Collection<ItemStack> getDrops(@NotNull ItemStack tool, Entity entity)
 	{
-		return drops;
+		return new ArrayList<>(drops);
 	}
 
 	/**
@@ -695,7 +695,7 @@ public class BlockMock implements Block
 
 	public void setDrops(Collection<ItemStack> items)
 	{
-		drops = items;
+		drops = new ArrayList<>(items);
 	}
 
 }
